@@ -11,6 +11,8 @@ data = np.array([[ 0.792,  0.503], [ 1.632, -0.464], [-0.067,  0.268], [-1.044, 
 
 t = np.array([0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1])
 
+kernel_list = ['linear', 'poly', 'rbf', 'sigmoid']
+
 def get_score(clf, train_features, train_labels):
     X_train, X_test, y_train, y_test = train_test_split(train_features, train_labels, test_size=0.8, random_state=0)
 
@@ -18,16 +20,21 @@ def get_score(clf, train_features, train_labels):
     print (clf.score(X_test, y_test))
 
 def get_accuracy(clf, train_features, train_labels):
-    scores = cross_val_score(clf, train_features, train_labels, cv=10)
+    scores = cross_val_score(clf, train_features, train_labels, cv=8)
     print(scores)
     print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 
+def exec(kernel): 
+    if kernel == 'linear':
+        model = sklearn.svm.SVC(kernel = kernel, C = 1000)
+    else :
+        model = sklearn.svm.SVC(kernel = kernel, gamma = 'scale', C = 1000)
+    model.fit(data, t)
 
-model = sklearn.svm.SVC(kernel = 'sigmoid', gamma = 'scale', C = 1000)
-model.fit(data, t)
+    get_accuracy(model, data, t)
 
-get_accuracy(model, data, t)
+    mlxtend.plotting.plot_decision_regions(data, t, model)
+    plt.show()
 
-
-mlxtend.plotting.plot_decision_regions(data, t, model)
-plt.show()
+for item in kernel_list:
+    exec(item)
