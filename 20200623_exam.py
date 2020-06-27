@@ -28,11 +28,11 @@ t = np.array([0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 
 
 for i in range(len(X)):
     if t[i] == 0:
-        X[i][1] += +1
-        X[i][1] += +1
+        X[i][1] += +0.6
+        # X[i][1] += +0.6
     else:
-        X[i][1] += -1
-        X[i][1] += -1
+        X[i][1] += -0.6
+        # X[i][1] += -0.6
 
 def laddering_cluster(X):
     Y = scipy.spatial.distance.pdist(X, 'euclidean')  #ユークリッド距離での距離行列
@@ -44,7 +44,7 @@ def laddering_cluster(X):
 
 
 def k_means(X):
-    K=6
+    K=2
     model = sklearn.cluster.KMeans( n_clusters=K )
     model.fit( X )
     print( model.labels_ )
