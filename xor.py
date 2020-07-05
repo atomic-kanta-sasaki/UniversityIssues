@@ -15,9 +15,7 @@ hidden = 3
 w1 = np.random.rand(hidden, X.shape[0])
 
 w2 = np.random.rand(1, hidden)
-
-costlog_ = []
-costsq_ = []
+nizyou_gosa_ = []
 
 
 for i in range(500):
@@ -34,12 +32,10 @@ for i in range(500):
     dw1 = delta1.dot(X.T)
     w1 -= dw1
     
-    costlog = -np.sum(y * np.log(z2) + (1 - y) * np.log(1 - z2))
-    costlog_.append(costlog)
-    costsq = 0.5 * np.sum(delta2 ** 2)
-    costsq_.append(costsq)
+    
+    nizyou_gosa = 0.5 * np.sum(delta2 ** 2)
+    nizyou_gosa_.append(nizyou_gosa)
 
-plt.plot(costlog_)
-plt.plot(costsq_, linestyle="dashed")
+plt.plot(nizyou_gosa_)
 plt.show()
 # print(z2)

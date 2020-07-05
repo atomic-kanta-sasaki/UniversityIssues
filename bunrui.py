@@ -46,8 +46,7 @@ w1 = np.random.rand(hidden, X.shape[0])
 
 w2 = np.random.rand(1, hidden)
 
-costlog_ = []
-costsq_ = []
+nizyou_gosa_ = []
 
 for i in range(500):
     u1 = w1.dot(X)
@@ -59,6 +58,7 @@ for i in range(500):
     z2 = sigmoid(u2)
     # print(z2)
     delta2 = z2 - y
+    # print(delta2)
     dw2 = delta2.dot(z1.T)
     w2 -= dw2
     delta1 = w2.T.dot(delta2) * (z1 * (1 - z1))
@@ -67,16 +67,14 @@ for i in range(500):
     # 評価関数
     z2 = np.array(z2)
     y = np.array(y)
-    # クロスエントロピー
-    costlog = -np.sum(y * np.log(z2) + (1 - y) * np.log(1 - z2))
-    costlog_.append(costlog)
     # 二乗誤差
-    costsq = 0.5 * np.sum(delta2 ** 2)
-    costsq_.append(costsq)
-    print(costsq_)
-    
+    nizyou_gosa = 0.5 * np.sum(delta2 ** 2)
+    # print(costsq)
+    nizyou_gosa_.append(nizyou_gosa)
+    # print(costsq_)
+    # break
 
-plt.plot(costlog_)
-plt.plot(costsq_, linestyle="dashed")
+plt.ylim(0, 60)
+plt.plot(nizyou_gosa_)
 plt.show()
 # print(z2)
